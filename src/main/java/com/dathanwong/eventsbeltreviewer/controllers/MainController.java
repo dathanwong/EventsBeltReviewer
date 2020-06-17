@@ -1,5 +1,8 @@
 package com.dathanwong.eventsbeltreviewer.controllers;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -173,6 +176,55 @@ public class MainController {
 			return true;
 		}else {
 			return false;
+		}
+	}
+	
+	//Show edit event page
+	@RequestMapping("/events/{id}/edit")
+	public String showEditEventsPage(@PathVariable("id") Long eventId,Model model, HttpSession session, @ModelAttribute("event") Event editEvent) {
+		if(this.isLoggedIn(session)) {
+			Event event = eventService.findById(eventId);
+			model.addAttribute("date", event.getDateString());
+			model.addAttribute("event", event);
+			model.addAttribute("states", State.states);
+			return "editEventPage.jsp";
+		}else {
+			return "redirect:/";
+		}
+	}
+	
+	@PostMapping("/events/{id}/edit")
+	public String editEvent(@PathVariable("id") Long eventId, Model model, HttpSession session, @Valid @ModelAttribute("event") Event editEvent, BindingResult result) {
+		Long userId = (Long) session.getAttribute("userId");
+		User user = userService.findById(userId);
+		Event event = eventService.findById(eventId);
+		if(result.hasErrors()) {
+			model.addAttribute("date", event.getDateString());
+			model.addAttribute("event", event);
+			model.addAttribute("states", State.states);
+			return "editEventPage.jsp";
+		}else {
+			event.setDate(editEvent.getDate());
+			event.setName(editEvent.getName());
+			event.setLocation(editEvent.getLocation());
+			event.setState(editEvent.getState());
+			eventService.update(event);
+			return "redirect:/events";
+		}
+	}
+	
+	@RequestMapping("/events/{id}/delete")
+	public String deleteEvent(@PathVariable("id") Long eventId, HttpSession session) {
+		if(this.isLoggedIn(session)) {
+			Event event = eventService.findById(eventId);
+			Long userId = (Long) session.getAttribute("userId");
+			//only delete event if logged in user is the host
+			if(userId == event.getHost().getId()) {
+				eventService.delete(event);
+			}
+			return "redirect:/events";
+		}else {
+			return "redirect:/";
 		}
 	}
 	

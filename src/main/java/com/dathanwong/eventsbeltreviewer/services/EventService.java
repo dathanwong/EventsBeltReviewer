@@ -35,6 +35,10 @@ public class EventService {
 		}
 	}
 	
+	public void delete(Event event) {
+		eventRepo.delete(event);
+	}
+	
 	public List<Event> findByState(String state){
 		return eventRepo.findByState(state);
 	}

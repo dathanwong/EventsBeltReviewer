@@ -1,9 +1,12 @@
 package com.dathanwong.eventsbeltreviewer.models;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -49,7 +52,7 @@ public class Event {
 		inverseJoinColumns=@JoinColumn(name="user_id")
 	)
 	private List<User> attendees = new ArrayList<User>() ;
-	@OneToMany(mappedBy="event", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="event", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Message> messages = new ArrayList<Message>();
 	@Column(updatable=false)
     @DateTimeFormat(pattern="yyyy-MM-dd")
@@ -97,6 +100,11 @@ public class Event {
     	if(this.userIsAttendee(user)) {
     		this.attendees.remove(user);
     	}
+    }
+    
+    public String getDateString() {
+    	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+    	return dateFormat.format(this.getDate());
     }
 
     public void addMessage(Message message) {

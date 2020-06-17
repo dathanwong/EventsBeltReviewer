@@ -22,25 +22,28 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <div class="row my-2">
-                                <div class="col-3">Name</div>
-                                <input class="col-8" type="text">
-                            </div>
-                            <div class="row my-2">
-                                <div class="col-3">Date</div>
-                                <input class="col-8" type="datetime">
-                            </div>
-                            <div class="row my-2">
-                                <div class="col-3">Location</div>
-                                <input class="col-6" type="text">
-                                <select class="col-2" name="" id="">
-                                    <option value="">CA</option>
-                                    <option value="">WA</option>
-                                </select>
-                            </div>
-                            <div class="row my-2 justify-content-end">
-                                <button class="btn btn-primary" type="submit">Edit</button>
-                            </div>
+                        	<form:form action="/events/${event.id}/edit" method="POST" modelAttribute="event">
+	                            <div class="row my-2">
+	                                <div class="col-3">Name</div>
+	                                <form:input path="name" class="col-8" type="text" value="${event.name}"/>
+	                            </div>
+	                            <div class="row my-2">
+	                                <div class="col-3">Date</div>
+	                                <form:input path="date" class="col-8" type="datetime-local" value="${date}"/>
+	                            </div>
+	                            <div class="row my-2">
+	                                <div class="col-3">Location</div>
+	                                <form:input path="location" class="col-6" type="text" value="${event.location}"/>
+	                                <form:select path="state" class="col-2" name="" id="">
+	                                   <c:forEach items="${states}" var="state">
+			                               <option value="${state}" <c:if test="${event.state.equals(state)}">selected</c:if>><c:out value="${state}"/></option>
+		                               </c:forEach>
+	                                </form:select>
+	                            </div>
+	                            <div class="row my-2 justify-content-end">
+	                                <button class="btn btn-primary" type="submit">Edit</button>
+	                            </div>
+                            </form:form>
                         </div>
                     </div>
                 </div>

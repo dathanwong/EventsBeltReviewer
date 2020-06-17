@@ -42,8 +42,8 @@
 	                                    <td>
 	                                    	<c:if test="${event.userIsAttendee(user)}">
 	                                    		<c:if test="${event.userIsHost(user)}">
-	                                    			<a href="">Edit</a>
-	                                    			<a href="">Delete</a>
+	                                    			<a href="/events/${event.id}/edit">Edit</a>
+	                                    			<a href="/events/${event.id}/delete">Delete</a>
 	                                    		</c:if>
 	                                    		<c:if test="${!event.userIsHost(user)}">
 	                                    			Joining <a href="/events/${event.id}/cancel">Cancel</a>
@@ -80,8 +80,8 @@
 	                                    <td>
 	                                    	<c:if test="${event.userIsAttendee(user)}">
 	                                    		<c:if test="${event.userIsHost(user)}">
-	                                    			<a href="">Edit</a>
-	                                    			<a href="">Delete</a>
+	                                    			<a href="/events/${event.id}/edit">Edit</a>
+	                                    			<a href="/events/${event.id}/delete">Delete</a>
 	                                    		</c:if>
 	                                    		<c:if test="${!event.userIsHost(user)}">
 	                                    			Joining <a href="/events/${event.id}/cancel">Cancel</a>
